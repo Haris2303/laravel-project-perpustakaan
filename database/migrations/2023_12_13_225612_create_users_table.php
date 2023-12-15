@@ -16,12 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->char('user_code', 4);
-            $table->string('address', 200);
-            $table->string('telp', 16);
+            $table->boolean('is_admin')->default(false);
             $table->timestamps();
-            $table->unsignedBigInteger('admin_id')->nullable(false);
-            $table->foreign('admin_id')->references('id')->on('admins');
         });
     }
 

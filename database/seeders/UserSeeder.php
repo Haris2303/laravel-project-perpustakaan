@@ -17,16 +17,18 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = Admin::where('email', 'admin@localhost')->first();
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@localhost',
+            'password' => Hash::make('admin12345'),
+            'is_admin' => true
+        ]);
 
         User::create([
-            'name' => 'Test Name',
-            'email' => 'test@localhost',
-            'password' => Hash::make('test12345'),
-            'user_code' => '1234',
-            'address' => 'Jalan Batu',
-            'telp' => '0823123233',
-            'admin_id' => $admin->id
+            'name' => 'Member Name',
+            'email' => 'member@localhost',
+            'password' => Hash::make('member12345'),
+            'is_admin' => false
         ]);
     }
 }
