@@ -18,9 +18,22 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Member Access
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/home', function () {
+        return view('dashboard');
+    });
+});
+
+// Admin Access
+Route::middleware(['auth', 'verified', \App\Http\Middleware\IsAdminMiddleware::class])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
+
+    Route::get('/dashboard/members', [\App\Http\Controllers\Dashboard\MemberController::class, 'index']);
+    Route::post('/dashboard/members', [\App\Http\Controllers\Dashboard\MemberController::class, 'store']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

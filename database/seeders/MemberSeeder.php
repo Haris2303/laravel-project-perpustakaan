@@ -3,11 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
+use App\Models\Member;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AdminSeeder extends Seeder
+class MemberSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,11 +16,15 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         $user = User::where('email', 'admin@localhost')->first();
+        $admin = Admin::where('user_id', $user->id)->first();
 
-        Admin::create([
-            'address' => 'Jalan Batu',
-            'telp' => '0822222222',
+        Member::create([
+            'member_code' => 'M334',
+            'gender' => 'L',
+            'address' => 'Jalan Pasir',
+            'telp' => '089234133',
             'user_id' => $user->id,
+            'admin_id' => $admin->id
         ]);
     }
 }
