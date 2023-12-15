@@ -20,9 +20,7 @@ Route::get('/', function () {
 
 // Member Access
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/home', function () {
-        return view('dashboard');
-    });
+    Route::get('/home', [\App\Http\Controllers\BookController::class, 'index']);
 });
 
 // Admin Access

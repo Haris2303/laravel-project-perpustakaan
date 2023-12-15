@@ -1,6 +1,7 @@
 <x-dashboard-layout>
     <div class="p-4 sm:ml-64">
-        <div class="py-14">
+        <div class="my-16 py-5 w-1/2 shadow-lg px-5 roudned-xl">
+            <h1 class="text-xl font-bold my-5">Tambah Data Member</h1>
             <form action="/dashboard/members" method="post">
                 @csrf
                 <!-- Name -->
@@ -71,7 +72,7 @@
                     <x-input-error :messages="$errors->get('telp')" class="mt-2" />
                 </div>
 
-                <button type="submit" class="py-3 bg-slate-700">Register</button>
+                <button type="submit" class="w-full py-2 rounded text-white mt-5 bg-slate-700">Daftar</button>
             </form>
         </div>
     </div>
