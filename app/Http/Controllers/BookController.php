@@ -12,4 +12,9 @@ class BookController extends Controller
     {
         return view('web.books');
     }
+
+    public function detail(): View
+    {
+        return view('web.detail');
+    }
 }

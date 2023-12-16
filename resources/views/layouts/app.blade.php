@@ -18,13 +18,14 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
+        <div class="container">
+            @include('layouts.navigation')
 
-        @include('layouts.navigation')
-
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
+        </div>
     </div>
 </body>
 

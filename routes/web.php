@@ -21,6 +21,7 @@ Route::get('/', function () {
 // Member Access
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/home', [\App\Http\Controllers\BookController::class, 'index']);
+    Route::get('/book/detail', [\App\Http\Controllers\BookController::class, 'detail']);
 });
 
 // Admin Access
