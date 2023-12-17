@@ -51,9 +51,12 @@
                 <!-- Gender -->
                 <div class="mt-4">
                     <x-input-label for="gender" :value="__('Gender')" />
-                    <x-text-input id="gender" class="block mt-1 w-full" type="text" name="gender"
-                        :value="old('gender')" required autofocus autocomplete="member-code" />
-                    <x-input-error :messages="$errors->get('gender')" class="mt-2" />
+                    <input type="radio" name="gender" id="l" value="L"
+                        @if (old('gender') == 'L') @checked(true) @endif @required(true)>
+                    <label for="l" class="mr-3">Laki Laki</label>
+                    <input type="radio" name="gender" id="p" value="P"
+                        @if (old('gender') == 'P') @checked(true) @endif @required(true)>
+                    <label for="p">Perempuan</label>
                 </div>
 
                 <!-- Address -->

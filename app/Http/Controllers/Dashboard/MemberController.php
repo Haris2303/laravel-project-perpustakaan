@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
+
     public function index(): View
     {
         $members = Member::all();
@@ -26,7 +25,16 @@ class MemberController extends Controller
         return view('dashboard.member.index', $data);
     }
 
-    public function store(Request $request): JsonResponse
+    public function create(): View
+    {
+        $data = [
+            'title' => 'Tambah Member'
+        ];
+
+        return view('dashboard.member.create', $data);
+    }
+
+    public function store(Request $request): RedirectResponse
     {
         DB::transaction(function () use ($request) {
 
@@ -54,8 +62,54 @@ class MemberController extends Controller
             $member->save();
         });
 
-        return response()->json([
-            'message' => 'success'
-        ])->setStatusCode(201);
+        return redirect('/dashboard/members')->with('success', 'Data Member berhasil ditambahkan!');
+    }
+
+    public function edit($member_code): View
+    {
+        $member = Member::where('member_code', $member_code)->first();
+        $data = [
+            'title' => 'Edit Member',
+            'member' => $member
+        ];
+
+        return view('dashboard.member.edit', $data);
+    }
+
+    public function update(Request $request, $member_code): RedirectResponse
+    {
+        // validation rules
+        $rules = [
+            'name' => ['required'],
+            'gender' => 'required',
+            'address' => 'required',
+            'telp' => ['required', 'numeric'],
+        ];
+
+        $request->validate($rules);
+
+        $member = Member::where('member_code', $member_code)->first();
+
+        User::where('id', $member->user_id)->update([
+            'name' => $request->name
+        ]);
+
+        Member::where('member_code', $member_code)->update([
+            'gender' => $request->gender,
+            'address' => $request->address,
+            'telp' => $request->telp
+        ]);
+
+        return redirect('/dashboard/members')->with('success', 'Data Member berhasil diedit!');
+    }
+
+    public function delete($member_code): RedirectResponse
+    {
+        $user_id = Member::where('member_code', $member_code)->first()->user_id;
+
+        Member::where('user_id', $user_id)->delete();
+        User::where('id', $user_id)->delete();
+
+        return redirect('/dashboard/members')->with('success', 'Data Member berhasil dihapus');
     }
 }

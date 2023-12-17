@@ -4,6 +4,6 @@ CREATE DATABASE laravel_perpustakaan
 
 USE laravel_perpustakaan;
 
-SELECT * FROM users;
+DELETE FROM users WHERE id = 4
 
-SELECT * FROM members;
+SELECT * FROM users;

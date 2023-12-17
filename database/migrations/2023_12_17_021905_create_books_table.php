@@ -21,8 +21,10 @@ return new class extends Migration
             $table->string('author', 100);
             $table->string('publisher', 100);
             $table->char('shell_code', 4);
+            $table->unsignedBigInteger('genre_id');
             $table->unsignedBigInteger('admin_id');
             $table->timestamps();
+            $table->foreign('genre_id')->references('id')->on('genres');
             $table->foreign('admin_id')->references('id')->on('admins');
         });
     }

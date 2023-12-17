@@ -15,6 +15,7 @@ class MemberSeeder extends Seeder
      */
     public function run(): void
     {
+        $member = User::where('email', 'member@localhost')->first();
         $user = User::where('email', 'admin@localhost')->first();
         $admin = Admin::where('user_id', $user->id)->first();
 
@@ -23,7 +24,7 @@ class MemberSeeder extends Seeder
             'gender' => 'L',
             'address' => 'Jalan Pasir',
             'telp' => '089234133',
-            'user_id' => $user->id,
+            'user_id' => $member->id,
             'admin_id' => $admin->id
         ]);
     }

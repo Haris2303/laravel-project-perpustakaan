@@ -30,5 +30,12 @@ class UserSeeder extends Seeder
             'password' => Hash::make('member12345'),
             'is_admin' => false
         ]);
+
+        User::create([
+            'name' => 'Admin Dua',
+            'email' => 'admin2@localhost',
+            'password' => Hash::make('admin212345'),
+            'is_admin' => true
+        ]);
     }
 }
