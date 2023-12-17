@@ -54,6 +54,14 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\IsAdminMiddleware::c
     Route::get('/dashboard/genre/{id}', [\App\Http\Controllers\Dashboard\GenreController::class, 'edit']);
     Route::put('/dashboard/genre/{id}', [\App\Http\Controllers\Dashboard\GenreController::class, 'update']);
     Route::delete('/dashboard/genre/{id}', [\App\Http\Controllers\Dashboard\GenreController::class, 'delete']);
+
+    // Books
+    Route::get('/dashboard/books', [\App\Http\Controllers\Dashboard\BookController::class, 'index']);
+    Route::get('/dashboard/books/create', [\App\Http\Controllers\Dashboard\BookController::class, 'create']);
+    Route::post('/dashboard/books', [\App\Http\Controllers\Dashboard\BookController::class, 'store']);
+    Route::get('/dashboard/books/{isbn}', [\App\Http\Controllers\Dashboard\BookController::class, 'edit']);
+    Route::put('/dashboard/books/{isbn}', [\App\Http\Controllers\Dashboard\BookController::class, 'update']);
+    Route::delete('/dashboard/books/{isbn}', [\App\Http\Controllers\Dashboard\BookController::class, 'delete']);
 });
 
 Route::middleware('auth')->group(function () {

@@ -12,6 +12,8 @@ class Book extends Model
 {
     protected $table = 'books';
 
+    protected $guarded = ['id'];
+
     public function admin(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'admin_id', 'id', 'admins');
