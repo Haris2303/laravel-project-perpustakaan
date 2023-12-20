@@ -23,4 +23,9 @@ class Book extends Model
     {
         return $this->hasMany(Borrowing::class, 'book_id', 'id');
     }
+
+    public function hasGenres(): BelongsToMany
+    {
+        return $this->belongsToMany(Genre::class, 'books_have_genres', 'book_id', 'genre_id');
+    }
 }

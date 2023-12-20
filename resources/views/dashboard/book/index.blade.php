@@ -29,10 +29,16 @@
                             No
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Nama
+                            Judul
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Deskripsi
+                            Tahun Publis
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Kode Rak
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Genre
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="sr-only">Edit</span>
@@ -48,10 +54,18 @@
                                 {{ $loop->iteration }}
                             </th>
                             <td class="px-6 py-4">
-                                {{ $book->name }}
+                                {{ $book->title }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $book->description }}
+                                {{ $book->publication_year }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $book->shell_code }}
+                            </td>
+                            <td class="px-6 py-4">
+                                @foreach ($book->hasGenres as $item)
+                                    {{ $item->name }},
+                                @endforeach
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <a href="/dashboard/book/{{ $book->id }}"

@@ -2,13 +2,20 @@
     <div class="p-4 sm:ml-64">
         <div class="py-5 w-1/2 shadow-lg px-5 roudned-xl">
             <h1 class="text-xl font-bold my-5">Tambah Data Buku</h1>
-            <form action="/dashboard/books" method="post">
+            <form action="/dashboard/books" method="post" enctype="multipart/form-data">
                 @csrf
-                <!-- isbn -->
+                {{-- image --}}
                 <div>
+                    <x-input-label for="cover" :value="__('Cover')" />
+                    <x-text-input id="cover" class="block mt-1 w-full" type="file" name="cover" :value="old('cover')"
+                        required autofocus autocomplete="cover" />
+                    <x-input-error :messages="$errors->get('cover')" class="mt-2" />
+                </div>
+                <!-- isbn -->
+                <div class="mt-4">
                     <x-input-label for="isbn" :value="__('ISBN')" />
-                    <x-text-input id="isbn" class="block mt-1 w-full" type="text" name="isbn" :value="old('isbn')"
-                        required autofocus autocomplete="isbn" />
+                    <x-text-input id="isbn" class="block mt-1 w-full" type="text" name="isbn"
+                        :value="old('isbn')" required autofocus autocomplete="isbn" />
                     <x-input-error :messages="$errors->get('isbn')" class="mt-2" />
                 </div>
 
@@ -21,13 +28,17 @@
                 </div>
 
                 <div class="mt-4">
-                    <x-input-label for="genre" :value="__('Genre')" />
-                    <select name="genre" id="genre"
-                        class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                    <x-input-label for="genre" :value="__('Genre')" class="mb-2" />
+                    <div class="flex gap-5">
                         @foreach ($genres as $genre)
-                            <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                            <div>
+                                <input type="checkbox" name="genres[]" id="{{ $genre->id }}"
+                                    value="{{ $genre->id }}"
+                                    class="mr-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <x-input-label for="{{ $genre->id }}" :value="__($genre->name)" class="inline" />
+                            </div>
                         @endforeach
-                    </select>
+                    </div>
                 </div>
 
                 <!-- publication_year -->

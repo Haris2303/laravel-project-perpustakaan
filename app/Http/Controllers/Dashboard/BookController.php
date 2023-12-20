@@ -8,6 +8,7 @@ use App\Models\Genre;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
@@ -38,22 +39,32 @@ class BookController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $credential = $request->validate([
-            'isbn' => ['required', 'numeric', 'max:16', 'unique:books'],
+            'isbn' => ['required', 'numeric', 'unique:books'],
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'publication_year' => ['required', 'max:4'],
+            'publication_year' => ['required', 'size:4'],
             'quantity' => ['required', 'numeric'],
             'author' => ['required', 'string'],
             'publisher' => ['required', 'string'],
-            'shell_code' => ['required', 'max:4']
+            'shell_code' => ['required', 'max:4'],
+            'cover' => ['file', 'image']
         ]);
 
         DB::transaction(function () use ($credential, $request) {
+            $credential['admin_id'] = Auth::user()->id;
+
             Book::create($credential);
+
+            $request->file('cover')->store('img/cover', 'public');
 
             $book = Book::where('isbn', $request->isbn)->first();
 
-            $book->hasGenres()->attach($request->genre);
+            // attach genres
+            if (!is_null($request->genres)) {
+                foreach ($request->genres as $genre) {
+                    $book->hasGenres()->attach($genre);
+                }
+            }
         });
 
         return redirect('/dashboard/books')->with('success', 'Data Buku berhasil ditambahkan!');
