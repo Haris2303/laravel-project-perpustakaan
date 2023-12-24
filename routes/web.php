@@ -62,6 +62,22 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\IsAdminMiddleware::c
     Route::get('/dashboard/books/{isbn}', [\App\Http\Controllers\Dashboard\BookController::class, 'edit']);
     Route::put('/dashboard/books/{isbn}', [\App\Http\Controllers\Dashboard\BookController::class, 'update']);
     Route::delete('/dashboard/books/{isbn}', [\App\Http\Controllers\Dashboard\BookController::class, 'delete']);
+
+    // Borrowings
+    Route::get('/dashboard/borrowings', [\App\Http\Controllers\Dashboard\BorrowingController::class, 'index']);
+    Route::get('/dashboard/borrowings/create', [\App\Http\Controllers\Dashboard\BorrowingController::class, 'create']);
+    Route::post('/dashboard/borrowings', [\App\Http\Controllers\Dashboard\BorrowingController::class, 'store']);
+    Route::get('/dashboard/borrowing/{id}', [\App\Http\Controllers\Dashboard\BorrowingController::class, 'edit']);
+    Route::put('/dashboard/borrowing/{id}', [\App\Http\Controllers\Dashboard\BorrowingController::class, 'update']);
+    Route::delete('/dashboard/borrowings', [\App\Http\Controllers\Dashboard\BorrowingController::class, 'delete']);
+
+    // Returned
+    Route::get('/dashboard/returneds', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'index']);
+    Route::get('/dashboard/returneds/create', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'create']);
+    Route::post('/dashboard/returneds', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'store']);
+    Route::get('/dashboard/returned/{isbn}', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'edit']);
+    Route::put('/dashboard/returned/{isbn}', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'update']);
+    Route::delete('/dashboard/returned/{isbn}', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'delete']);
 });
 
 Route::middleware('auth')->group(function () {

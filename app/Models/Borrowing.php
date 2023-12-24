@@ -10,6 +10,8 @@ class Borrowing extends Model
 {
     protected $table = 'borrowings';
 
+    protected $guarded = ['id'];
+
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'member_id', 'id', 'members');
