@@ -16,58 +16,21 @@
             </div>
 
             <div class="flex md:flex-row flex-col text-start gap-7">
-                <div class="lg:w-1/4">
-                    <a href="/book/">
-                        <img src="/img/books/cover.jpg" alt="" class="w-full object-cover">
-                    </a>
-                    <div class="px-1">
-                        <div class="mt-2 font-bold text-xl">
-                            <h3>Upin & Ipin</h3>
-                        </div>
-                        <div class="mt-1">
-                            <h4>Author Les Copaque</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="lg:w-1/4">
-                    <a href="">
-                        <img src="/img/books/cover.jpg" alt="" class="w-full object-cover">
-                    </a>
-                    <div class="px-1">
-                        <div class="mt-2 font-bold text-xl">
-                            <h3>Upin & Ipin</h3>
-                        </div>
-                        <div class="mt-1">
-                            <h4>Author Les Copaque</h4>
+                @foreach ($books as $item)
+                    <div class="lg:w-1/4">
+                        <a href="/book/">
+                            <img src="/img/cover/{{ $item->cover }}" alt="" class="w-full object-cover">
+                        </a>
+                        <div class="px-1">
+                            <div class="mt-2 font-bold text-xl">
+                                <h3>{{ $item->title }}</h3>
+                            </div>
+                            <div class="mt-1">
+                                <h4>{{ $item->description }}</h4>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="lg:w-1/4">
-                    <a href="">
-                        <img src="/img/books/cover.jpg" alt="" class="w-full object-cover">
-                    </a>
-                    <div class="px-1">
-                        <div class="mt-2 font-bold text-xl">
-                            <h3>Upin & Ipin</h3>
-                        </div>
-                        <div class="mt-1">
-                            <h4>Author Les Copaque</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="lg:w-1/4">
-                    <a href="">
-                        <img src="/img/books/cover.jpg" alt="" class="w-full object-cover">
-                    </a>
-                    <div class="px-1">
-                        <div class="mt-2 font-bold text-xl">
-                            <h3>Upin & Ipin</h3>
-                        </div>
-                        <div class="mt-1">
-                            <h4>Author Les Copaque</h4>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

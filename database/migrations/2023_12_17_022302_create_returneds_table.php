@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('returneds', function (Blueprint $table) {
             $table->id();
             $table->integer('late_payment');
-            $table->time('lateness');
+            $table->time('time_returned');
             $table->date('return_date');
-            $table->date('loan_date');
             $table->unsignedBigInteger('member_id');
             $table->unsignedBigInteger('borrowing_id');
             $table->timestamps();

@@ -69,4 +69,42 @@ class BookController extends Controller
 
         return redirect('/dashboard/books')->with('success', 'Data Buku berhasil ditambahkan!');
     }
+
+    public function edit($isbn): View
+    {
+        $book = Book::where('isbn', $isbn)->firstOrFail();
+        $genres = Genre::all();
+        $data = [
+            'title' => 'Ubah Data Buku',
+            'book' => $book,
+            'genres' => $genres
+        ];
+
+        return view('dashboard.book.edit', $data);
+    }
+
+    public function update(Request $request, $isbn): RedirectResponse
+    {
+        $credential = $request->validate([
+            'isbn' => ['required', 'numeric', 'unique:books'],
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'publication_year' => ['required', 'size:4'],
+            'quantity' => ['required', 'numeric'],
+            'author' => ['required', 'string'],
+            'publisher' => ['required', 'string'],
+            'shell_code' => ['required', 'max:4'],
+            'cover' => ['file', 'image']
+        ]);
+
+        return redirect('/dashboard/books')->with('success', 'Data Buku berhasil diubah!');
+    }
+
+    public function delete($isbn): RedirectResponse
+    {
+        $book = Book::where('isbn', $isbn)->firstOrFail();
+        $book->delete();
+
+        return redirect('/dashboard/books')->with('success', 'Data Buku berhasil dihapus!');
+    }
 }

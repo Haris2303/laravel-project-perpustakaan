@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Member extends Model
 {
@@ -18,5 +19,10 @@ class Member extends Model
     public function admin(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'admin_id', 'id', 'admins');
+    }
+
+    public function returneds(): HasMany
+    {
+        return $this->hasMany(Returned::class, 'member_id', 'id');
     }
 }

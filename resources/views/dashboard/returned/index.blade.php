@@ -3,14 +3,14 @@
         <div class="w-[19rem] flex gap-10 shadow-md p-7 mb-10">
             <div class="w-20 h-20 rounded-full">
                 <svg class="flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
-                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                     <path
-                        d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z" />
+                        d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
                 </svg>
             </div>
             <div class="flex flex-col justify-end items-end">
-                <span class="text-3xl text-gray-900 font-bold">{{ $books->count() }}</span>
-                <span class="text-gray-700">Jumlah Buku</span>
+                <span class="text-3xl text-gray-900 font-bold">{{ $returneds->count() }}</span>
+                <span class="text-gray-700">Jumlah Pengembalian</span>
             </div>
         </div>
         @if (session()->has('success'))
@@ -19,7 +19,7 @@
             </div>
         @endif
         <div class="w-40 mb-3">
-            <a href="/dashboard/books/create" class="bg-gray-600 text-white py-1 px-5 rounded-lg">Tambah</a>
+            <a href="/dashboard/returneds/create" class="bg-gray-600 text-white py-1 px-5 rounded-lg">Tambah</a>
         </div>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-5">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -29,16 +29,16 @@
                             No
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Judul
+                            Nama Buku
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Tahun Publis
+                            Tanggal Pinjam
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Kode Rak
+                            Tanggal Kembali
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Genre
+                            Toleransi Telat
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="sr-only">Edit</span>
@@ -46,7 +46,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($books as $book)
+                    @foreach ($returneds as $returned)
                         <tr
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th scope="row"
@@ -54,25 +54,24 @@
                                 {{ $loop->iteration }}
                             </th>
                             <td class="px-6 py-4">
-                                {{ $book->title }}
+                                {{ $returned->book->title }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $book->publication_year }}
+                                {{ $returned->loan_date }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $book->shell_code }}
+                                {{ $returned->return_date }}
                             </td>
                             <td class="px-6 py-4">
-                                @foreach ($book->hasGenres as $item)
-                                    {{ $item->name }},
-                                @endforeach
+                                {{ $returned->lateness }}
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <a href="/dashboard/book/{{ $book->isbn }}"
+                                <a href="/dashboard/returned/{{ $returned->id }}"
                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> |
-                                <form action="/dashboard/book/{{ $book->isbn }}" method="post" class="inline">
+                                <form action="/dashboard/returneds" method="post" class="inline">
                                     @method('delete')
                                     @csrf
+                                    <input type="hidden" name="id" value="{{ $returned->id }}">
                                     <button type="submit"
                                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</button>
                                 </form>

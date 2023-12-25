@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Borrowing extends Model
 {
@@ -20,5 +21,10 @@ class Borrowing extends Model
     public function book(): BelongsTo
     {
         return $this->belongsTo(Book::class, 'book_id', 'id', 'books');
+    }
+
+    public function returned(): HasOne
+    {
+        return $this->hasOne(Returned::class, 'borrowing_id', 'id');
     }
 }

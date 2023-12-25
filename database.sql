@@ -6,6 +6,6 @@ USE laravel_perpustakaan;
 
 DELETE FROM users WHERE id = 4
 
-SELECT * FROM books;
+SELECT cover FROM books;
 
 SELECT * FROM borrowings
