@@ -77,7 +77,9 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\IsAdminMiddleware::c
     Route::post('/dashboard/returneds', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'store']);
     Route::get('/dashboard/returned/{isbn}', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'edit']);
     Route::put('/dashboard/returned/{isbn}', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'update']);
-    Route::delete('/dashboard/returned/{isbn}', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'delete']);
+    Route::delete('/dashboard/returned/{id}', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'destroy']);
+    Route::get('/dashboard/returneds/payment/{id}', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'payment']);
+    Route::put('/dashboard/returneds/payment/{id}', [\App\Http\Controllers\Dashboard\ReturnedController::class, 'do_pay']);
 });
 
 Route::middleware('auth')->group(function () {

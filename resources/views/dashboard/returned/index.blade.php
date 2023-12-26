@@ -29,16 +29,19 @@
                             No
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Nama Buku
+                            Judul Buku
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Tanggal Pinjam
+                            Tanggal Pinjam dan Kembali
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Tanggal Kembali
+                            Tanggal Buku Diterima
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Toleransi Telat
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Denda
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="sr-only">Edit</span>
@@ -54,24 +57,33 @@
                                 {{ $loop->iteration }}
                             </th>
                             <td class="px-6 py-4">
-                                {{ $returned->book->title }}
+                                {{ $returned->borrowing->book->title }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $returned->loan_date }}
+                                {{ $returned->borrowing->loan_date }} -- {{ $returned->borrowing->return_date }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ $returned->return_date }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $returned->lateness }}
+                                {{ round((strtotime($returned->time_returned) - strtotime($returned->borrowing->lateness)) / 3600) }}
+                                jam
+                            </td>
+                            <td class="px-6 py-4">
+                                {!! $returned->late_payment
+                                    ? '<a href="/dashboard/returneds/payment/' .
+                                        $returned->id .
+                                        '" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Bayar ' .
+                                        round($returned->late_payment / 100) .
+                                        'k</a>'
+                                    : 'Tidak ada denda' !!}
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <a href="/dashboard/returned/{{ $returned->id }}"
                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> |
-                                <form action="/dashboard/returneds" method="post" class="inline">
+                                <form action="/dashboard/returned/{{ $returned->id }}" method="post" class="inline">
                                     @method('delete')
                                     @csrf
-                                    <input type="hidden" name="id" value="{{ $returned->id }}">
                                     <button type="submit"
                                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</button>
                                 </form>

@@ -19,7 +19,7 @@
                 @foreach ($books as $item)
                     <div class="lg:w-1/4">
                         <a href="/book/">
-                            <img src="/img/cover/{{ $item->cover }}" alt="" class="w-full object-cover">
+                            <img src="/storage/{{ $item->cover }}" alt="" class="w-full object-cover">
                         </a>
                         <div class="px-1">
                             <div class="mt-2 font-bold text-xl">

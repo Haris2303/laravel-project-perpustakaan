@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -47,15 +48,17 @@ class BookController extends Controller
             'author' => ['required', 'string'],
             'publisher' => ['required', 'string'],
             'shell_code' => ['required', 'max:4'],
-            'cover' => ['file', 'image']
+            'cover' => ['image', 'file', 'max:1024']
         ]);
 
         DB::transaction(function () use ($credential, $request) {
             $credential['admin_id'] = Auth::user()->id;
 
-            Book::create($credential);
+            if ($request->file('cover')) {
+                $credential['cover'] = $request->file('cover')->store('cover-images');
+            }
 
-            $request->file('cover')->store('img/cover', 'public');
+            Book::create($credential);
 
             $book = Book::where('isbn', $request->isbn)->first();
 
@@ -85,8 +88,10 @@ class BookController extends Controller
 
     public function update(Request $request, $isbn): RedirectResponse
     {
-        $credential = $request->validate([
-            'isbn' => ['required', 'numeric', 'unique:books'],
+        $book = Book::where('isbn', $isbn)->firstOrFail();
+
+        $rules = [
+            'isbn' => ['required', 'numeric'],
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
             'publication_year' => ['required', 'size:4'],
@@ -95,7 +100,24 @@ class BookController extends Controller
             'publisher' => ['required', 'string'],
             'shell_code' => ['required', 'max:4'],
             'cover' => ['file', 'image']
-        ]);
+        ];
+
+        if ($book->isbn !== $request->isbn) {
+            $rules['isbn'] = ['required', 'numeric', 'unique:books'];
+        }
+
+        $credential = $request->validate($rules);
+
+        // check image
+        if ($request->file('image')) {
+            // if image is changed
+            if ($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $credential['cover'] = $request->file('cover')->store('cover-images');
+        }
+
+        Book::where('isbn', $isbn)->update($credential);
 
         return redirect('/dashboard/books')->with('success', 'Data Buku berhasil diubah!');
     }
@@ -103,6 +125,13 @@ class BookController extends Controller
     public function delete($isbn): RedirectResponse
     {
         $book = Book::where('isbn', $isbn)->firstOrFail();
+
+        // detach
+        foreach ($book->hasGenres as $genre) {
+            $book->hasGenres()->detach($genre->id);
+        }
+
+        // delete
         $book->delete();
 
         return redirect('/dashboard/books')->with('success', 'Data Buku berhasil dihapus!');

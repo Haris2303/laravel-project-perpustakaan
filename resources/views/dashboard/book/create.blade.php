@@ -4,7 +4,7 @@
             <h1 class="text-xl font-bold my-5">Tambah Data Buku</h1>
             <form action="/dashboard/books" method="post" enctype="multipart/form-data">
                 @csrf
-                {{-- image --}}
+                {{-- cover --}}
                 <div>
                     <x-input-label for="cover" :value="__('Cover')" />
                     <x-text-input id="cover" class="block mt-1 w-full" type="file" name="cover" :value="old('cover')"
