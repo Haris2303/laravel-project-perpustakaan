@@ -41,6 +41,9 @@
                             Toleransi Telat
                         </th>
                         <th scope="col" class="px-6 py-3">
+                            Status
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             <span class="sr-only">Edit</span>
                         </th>
                     </tr>
@@ -65,9 +68,14 @@
                             <td class="px-6 py-4">
                                 {{ $borrowing->lateness }}
                             </td>
+                            <td class="px-6 py-4">
+                                {{ $borrowing->is_return ? 'Dikembalikan' : 'Belum dikembalikan' }}
+                            </td>
                             <td class="px-6 py-4 text-right">
-                                <a href="/dashboard/borrowing/{{ $borrowing->id }}"
-                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> |
+                                @if (!$borrowing->is_return)
+                                    <a href="/dashboard/borrowing/{{ $borrowing->id }}"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> |
+                                @endif
                                 <form action="/dashboard/borrowings" method="post" class="inline">
                                     @method('delete')
                                     @csrf

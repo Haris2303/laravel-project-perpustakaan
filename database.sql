@@ -8,4 +8,6 @@ DELETE FROM users WHERE id = 4
 
 SELECT cover FROM books;
 
-SELECT * FROM borrowings
+SELECT * FROM returneds 
+
+DELETE FROM returneds

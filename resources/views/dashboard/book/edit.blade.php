@@ -2,13 +2,15 @@
     <div class="p-4 sm:ml-64">
         <div class="py-5 w-1/2 shadow-lg px-5 roudned-xl">
             <h1 class="text-xl font-bold my-5">Ubah Data Buku</h1>
-            <form action="/dashboard/books" method="post" enctype="multipart/form-data">
+            <form action="/dashboard/book/{{ $book->isbn }}" method="post" enctype="multipart/form-data">
+                @method('put')
                 @csrf
-                {{-- image --}}
+                {{-- cover --}}
                 <div>
+                    <input type="hidden" name="oldImage" value="{{ $book->cover }}">
                     <x-input-label for="cover" :value="__('Cover')" />
-                    <x-text-input id="cover" class="block mt-1 w-full" type="file" name="cover" :value="old('cover')"
-                        required autofocus autocomplete="cover" />
+                    <x-text-input id="cover" class="block mt-1 w-full" type="file" name="cover"
+                        :value="old('cover')" required autofocus autocomplete="cover" />
                     <x-input-error :messages="$errors->get('cover')" class="mt-2" />
                 </div>
 

@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\Admin;
+use App\Models\Genre;
 use App\Models\Member;
 use App\Models\User;
 use Database\Seeders\AdminSeeder;
+use Database\Seeders\GenreSeeder;
 use Database\Seeders\MemberSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -41,5 +43,11 @@ class SeederTest extends TestCase
         $member = Member::where('admin_id', $admin->id)->firstOrfail();
 
         $this->assertNotNull($member);
+    }
+
+    public function testCreateGenres()
+    {
+        $this->seed([GenreSeeder::class]);
+        $this->assertNotNull(Genre::all());
     }
 }
